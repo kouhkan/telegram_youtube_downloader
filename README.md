@@ -16,7 +16,7 @@ A telegram bot which can download youtube file(s) and upload it to user.
 - [ ] Dockerize project
 
 ### Run project
-- Need to get a new telegram token as ***botfather***
+- Need to get a new telegram token as [botfather](https://telegram.me/BotFather)
 - Create a postgres database
 - Change .env-sample to .env file
 - Replace your data into .env file
