@@ -1,7 +1,5 @@
 # Telegram YouTube Downloader
 
----
-
 A telegram bot which can download youtube file(s) and upload it to user.
 
 
