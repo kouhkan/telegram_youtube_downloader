@@ -1,8 +1,8 @@
-import os
 import subprocess
-import typing as t
 
 from yt_dlp import YoutubeDL
+
+from .file_helper import find_file_recursive
 
 
 def format_selector(ctx):
@@ -32,19 +32,7 @@ def format_selector(ctx):
     }
 
 
-def find_file_recursive(start_dir: str, partial_name: str) -> str:
-    """
-      Finds files with names containing the given partial name in a directory structure.
-      """
-    matches = None
-    for root, _, files in os.walk(start_dir):
-        for filename in files:
-            if partial_name.lower() in filename.lower():  # Case-insensitive search
-                matches = os.path.join(root, filename)
-    return matches
-
-
-def download(urls: t.List[str]) -> str:
+def download(urls: str) -> str:
     ydl_opts = {
         'format': format_selector,
     }
