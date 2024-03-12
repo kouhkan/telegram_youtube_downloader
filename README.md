@@ -11,7 +11,7 @@ A telegram bot which can download youtube file(s) and upload it to user.
 - [ ] Upload files into **minio bucket**
 - [ ] Better management for which file is exists
 - [ ] Add github action
-- [ ] Dockerize project
+- [x] Dockerize project
 - [x] Add alembic
 
 ### Run project
