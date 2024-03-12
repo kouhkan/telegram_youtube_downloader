@@ -3,12 +3,13 @@ import logging
 from telegram import Update, ReplyKeyboardRemove
 from telegram.ext import ContextTypes, Application, ConversationHandler, CommandHandler, MessageHandler, filters
 
-from crud.user import get_or_create_user
-from crud.youtube import get_or_create_youtube
-from models.base import Base
-from settings.config import settings
-from settings.db import engine, db_context
+from src.crud.user import get_or_create_user
+from src.crud.youtube import get_or_create_youtube
+from src.models.base import Base
+from src.settings.config import settings
+from src.settings.db import engine, db_context
 from utils.downloader import download
+from utils.tasks import push_download_into_queue
 
 # Config log
 logging.basicConfig(
@@ -47,10 +48,10 @@ async def youtube(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
                     db=db, user_id=update.message.from_user.id, url=update.message.text
                 )
                 await update.message.reply_text("Please wait to download your file and upload it for you")
-                upload_file_path = download(youtube.url)
+                upload_file_path = push_download_into_queue.delay(download(youtube.url))
                 await context.bot.send_document(
                     update.message.chat_id,
-                    document=upload_file_path,
+                    document=upload_file_path.get(),
                     write_timeout=1000,
                     read_timeout=1000,
                     connect_timeout=120

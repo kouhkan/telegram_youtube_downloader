@@ -1,6 +1,6 @@
 from sqlalchemy.orm import sessionmaker
 
-from models.user import User
+from src.models.user import User
 
 
 def get_user(*, db: sessionmaker, telegram_id: int):

@@ -2,7 +2,7 @@ from datetime import datetime
 
 from sqlalchemy import ForeignKey, String, DateTime, Column, Integer
 
-from models.base import Base
+from src.models.base import Base
 
 
 class YouTube(Base):

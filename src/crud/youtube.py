@@ -1,6 +1,6 @@
 from sqlalchemy.orm import sessionmaker
 
-from models.youtube import YouTube
+from src.models.youtube import YouTube
 
 
 def get_youtube(*, db: sessionmaker, url: str) -> YouTube:
