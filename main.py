@@ -6,10 +6,10 @@ from telegram.ext import ContextTypes, Application, ConversationHandler, Command
 from src.crud.user import get_or_create_user
 from src.crud.youtube import get_or_create_youtube
 from src.models.base import Base
+from src.settings import push_download_into_queue
 from src.settings.config import settings
 from src.settings.db import engine, db_context
 from utils.downloader import download
-from utils.tasks import push_download_into_queue
 
 # Config log
 logging.basicConfig(
