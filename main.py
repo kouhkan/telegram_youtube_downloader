@@ -44,7 +44,7 @@ async def youtube(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         try:
             with db_context() as db:
                 youtube = get_or_create_youtube(
-                    db=db, user_id=update.message.from_user.id, url=update.message.text
+                    db=db, user_id=update.message.from_user.id, url=update.message.text, video_id=None
                 )
                 await update.message.reply_text("Please wait to download your file and upload it for you")
                 upload_file_path = push_download_into_queue.delay(youtube.url)
