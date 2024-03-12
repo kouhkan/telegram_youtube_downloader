@@ -23,7 +23,7 @@ MarkupSafe==2.1.5
 minio==7.2.5
 mutagen==1.47.0
 prompt-toolkit==3.0.43
-psycopg2==2.9.9
+psycopg2-binary==2.9.9
 pycparser==2.21
 pycryptodome==3.20.0
 pycryptodomex==3.20.0
