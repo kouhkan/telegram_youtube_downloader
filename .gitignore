@@ -133,3 +133,5 @@ minio/
 
 celerybeat-schedule.db
 download/
+.DS_Store
+alembic.ini
