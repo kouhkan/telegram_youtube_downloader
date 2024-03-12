@@ -1,0 +1,69 @@
+version: "3"
+
+services:
+  db:
+    image: postgres:14.1
+    container_name: db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data/
+
+  redis:
+    image: redis:7.2
+    container_name: bot_redis
+    ports:
+      - "6379:6379"
+
+  bot:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: bot
+    command: >
+      bash -c "alembic upgrade head && 
+                python main.py"
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+      - celery
+      - minio
+      - redis
+    restart: on-failure
+
+  celery:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: bot_worker
+    command: celery -A src.settings.celery_app worker -E -l info --without-gossip --without-mingle --without-heartbeat
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    depends_on:
+      - redis
+    restart: on-failure
+
+  minio:
+    image: quay.io/minio/minio:latest
+    container_name: bot_minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - ./minio/data:/data
+    env_file:
+      - .env
+    command: server /data --console-address ":9001"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9000/minio/health/live" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  pgdata:
